@@ -26,7 +26,7 @@ class AdvertController extends Controller
   // on doit donc définir la méthode viewAction.
   // On donne à cette méthode l'argument $id, pour
   // correspondre au paramètre {id} de la route
-  public function viewAction($id)
+  public function viewAction($id, Request $request)
   {
     // Créons nous-mêmes la réponse en JSON, grâce à la fonction json_encode()
     //$response = new Response(json_encode(array('id' => $id)));
@@ -35,7 +35,19 @@ class AdvertController extends Controller
     // que l'on renvoie du JSON et non du HTML
     //$response->headers->set('Content-Type', 'application/json');
 
-    return new JsonResponse(array('id' => $id));
+    //return new JsonResponse(array('id' => $id));
+
+    // Récupération de la session
+    $session = $request->getSession();
+
+    // On recupere le contenu de la variable user_id
+    $userId = $request->get('user_id');
+
+    // On definit une nouvelle valeur pour cette variable user_id
+    $session->set('user_id', 91);
+
+    // on oublie pas de renvoyer une réponse
+    return new Response("Je suis une page de test, je n'ai rien à dire");
   }
 
   public function viewSlugAction($slug, $year, $_format)
