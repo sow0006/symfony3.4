@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse; // N'oubliez pas ce use
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class AdvertController extends Controller
 {
@@ -26,10 +28,14 @@ class AdvertController extends Controller
   // correspondre au paramètre {id} de la route
   public function viewAction($id)
   {
-    // On utilise le raccourci : il crée un objet Response
-    // Et lui donne comme contenu le contenu du template
-    return $this->redirectToRoute('oc_platform_home');
-    
+    // Créons nous-mêmes la réponse en JSON, grâce à la fonction json_encode()
+    //$response = new Response(json_encode(array('id' => $id)));
+
+    // Ici, nous définissons le Content-type pour dire au navigateur
+    // que l'on renvoie du JSON et non du HTML
+    //$response->headers->set('Content-Type', 'application/json');
+
+    return new JsonResponse(array('id' => $id));
   }
 
   public function viewSlugAction($slug, $year, $_format)
