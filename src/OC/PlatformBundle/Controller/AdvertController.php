@@ -5,7 +5,7 @@
 namespace OC\PlatformBundle\Controller;
 
 use OC\PlatformBundle\Entity\Advert;
-
+use OC\PlatformBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -50,6 +50,7 @@ class AdvertController extends Controller
       'listAdverts' => $listAdverts));
   }
 
+
   public function viewAction($id)
   {
     // On récupère le repository
@@ -73,6 +74,8 @@ class AdvertController extends Controller
     ));
   }
 
+
+
   public function addAction(Request $request)
   {
     // Création de l'entité
@@ -80,8 +83,14 @@ class AdvertController extends Controller
     $advert->setTitle('Recherche développeur Symfony2.');
     $advert->setAuthor('Alexandre');
     $advert->setContent("Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…");
-    // On peut ne pas définir ni la date ni la publication,
-    // car ces attributs sont définis automatiquement dans le constructeur
+
+    // Création de l'entité Image
+    $image = new Image();
+    $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+    $image->setAlt('Job de rêve');
+
+    // On lie l'image à l'annonce
+    $advert->setImage($image);
 
     // On récupère l'EntityManager
     $em = $this->getDoctrine()->getManager();
@@ -89,9 +98,13 @@ class AdvertController extends Controller
     // Étape 1 : On « persiste » l'entité
     $em->persist($advert);
 
-    // Étape 2 : On « flush » tout ce qui a été persisté avant
-    $em->flush();
+    // Étape 1 bis : si on n'avait pas défini le cascade={"persist"},
+    // on devrait persister à la main l'entité $image
+    // $em->persist($image);
 
+    // Étape 2 : On déclenche l'enregistrement
+    $em->flush();
+    
     // Reste de la méthode qu'on avait déjà écrit
     if ($request->isMethod('POST')) {
       $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');

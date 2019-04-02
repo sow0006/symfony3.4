@@ -197,6 +197,8 @@ class Advert
         return $this->published;
     }
 
+    
+
     /**
      * Set image
      *
