@@ -7,6 +7,7 @@ namespace OC\PlatformBundle\Controller;
 // N'oubliez pas ce use :
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse; // N'oubliez pas ce use
 use Symfony\Component\HttpFoundation\Response;
 
 class AdvertController extends Controller
@@ -27,10 +28,8 @@ class AdvertController extends Controller
   {
     // On utilise le raccourci : il crée un objet Response
     // Et lui donne comme contenu le contenu du template
-    return $this->render(
-      'OCPlatformBundle:Advert:view.html.twig',
-      array('id'  => $id)
-    );
+    return $this->redirectToRoute('oc_platform_home');
+    
   }
 
   public function viewSlugAction($slug, $year, $_format)
