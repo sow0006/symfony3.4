@@ -12,8 +12,11 @@ class AdvertController extends Controller
 {
   public function indexAction()
   {
-    $content = $this->render('OCPlatformBundle:Advert:index.html.twig', array('nom' => 'winzou'));
-    return $content;
+       // Recuperer URL de l'annonce
+       $url = $this->generate('oc_platform_view', // 1er argument
+                              array('id' => 5)    // 2eme argument
+                             );
+    return new Response ("L'URL de l'annonce d'id 5 est : ".$url);
   }
 
   // on doit donc définir la méthode viewAction.
