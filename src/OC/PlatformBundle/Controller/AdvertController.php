@@ -25,17 +25,12 @@ class AdvertController extends Controller
   // correspondre au paramètre {id} de la route
   public function viewAction($id)
   {
-    // On crée la reponse
-    $response = new Response();
-
-    // On definit le contenu
-    $response->setContent("Ceci est une page d'erreur 404");
-
-    //on definit le code HTTP à NOT Found (404)
-    $response->setStatusCode(Response::HTTP_NOT_FOUND);
-
-    //on retourne la reponse
-    return $response;
+    // On utilise le raccourci : il crée un objet Response
+    // Et lui donne comme contenu le contenu du template
+    return $this->render(
+      'OCPlatformBundle:Advert:view.html.twig',
+      array('id'  => $id)
+    );
   }
 
   public function viewSlugAction($slug, $year, $_format)
