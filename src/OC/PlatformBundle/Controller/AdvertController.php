@@ -4,6 +4,8 @@
 
 namespace OC\PlatformBundle\Controller;
 
+use OC\PlatformBundle\Entity\Advert;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -48,16 +50,19 @@ class AdvertController extends Controller
       'listAdverts' => $listAdverts));
   }
 
-  public function viewAction($id)
+  public function viewAction()
   {
-    $advert = array(
+    /*$advert = array(
       'title'   => 'Recherche développpeur Symfony2',
       'id'      => $id,
       'author'  => 'Alexandre',
       'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
       'date'    => new \Datetime()
-    );
+    );*/
 
+    $advert = new Advert;
+    $advert->setContent("Recherche développeur Symfony2.");
+	
     return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
       'advert' => $advert
     ));
