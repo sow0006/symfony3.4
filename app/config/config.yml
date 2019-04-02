@@ -8,6 +8,10 @@ imports:
 parameters:
     locale: en
 
+twig:
+    globals:
+        webmaster: %app_webmaster%
+        
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
