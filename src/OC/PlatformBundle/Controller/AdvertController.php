@@ -23,17 +23,19 @@ class AdvertController extends Controller
   // on doit donc définir la méthode viewAction.
   // On donne à cette méthode l'argument $id, pour
   // correspondre au paramètre {id} de la route
-  public function viewAction($id, Request $request)
+  public function viewAction($id)
   {
-    // $id vaut 5 si l'on a appelé l'URL /platform/advert/5
+    // On crée la reponse
+    $response = new Response();
 
-    // Ici, on récupèrera depuis la base de données
-    // l'annonce correspondant à l'id $id.
-    // Puis on passera l'annonce à la vue pour
-    // qu'elle puisse l'afficher
-    $tag = $request->query->get('tag');
+    // On definit le contenu
+    $response->setContent("Ceci est une page d'erreur 404");
 
-    return new Response("Affichage de l'annonce d'id : ".$id.", avec le tag: ".$tag);
+    //on definit le code HTTP à NOT Found (404)
+    $response->setStatusCode(Response::HTTP_NOT_FOUND);
+
+    //on retourne la reponse
+    return $response;
   }
 
   public function viewSlugAction($slug, $year, $_format)
