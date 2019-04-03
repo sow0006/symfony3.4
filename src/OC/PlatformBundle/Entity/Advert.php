@@ -78,6 +78,20 @@ class Advert
     */
     private $published = true;
 
+    /**
+   * @ORM\Column(name="nb_applications", type="integer")
+   */
+    private $nbApplications = 0;
+
+    public function increaseApplication()
+    {
+        $this->nbApplications++;
+    }
+
+    public function decreaseApplication()
+    {
+        $this->nbApplications--;
+    }
 
     public function __construct()
     {
@@ -85,6 +99,14 @@ class Advert
         $this->categories = new ArrayCollection();
         $this->applications = new ArrayCollection();
 
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $this->setUpdatedAt(new \Datetime());
     }
 
     public function addApplication(Application $application)
