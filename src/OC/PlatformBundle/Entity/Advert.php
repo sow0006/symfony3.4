@@ -46,7 +46,7 @@ class Advert
   private $published = true;
 
   /**
-   * @ORM\OneToOne(targetEntity="OC\PlatformBundle\Entity\Image", cascade={"persist", "remove"})
+   * @ORM\OneToOne(targetEntity="OC\PlatformBundle\Entity\Image", cascade={"persist"})
    */
   private $image;
 
