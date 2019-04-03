@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Advert
 {
     /**
+     * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist"})
+     */
+   private $categories;
+
+    /**
      * @ORM\OneToOne(targetEntity="OC\PlatformBundle\Entity\Image", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -63,8 +68,29 @@ class Advert
 
     public function __construct()
     {
-
         $this->date = new \Datetime();
+        $this->categories = new ArrayCollection();
+    }
+
+    // Notez le singulier, on ajoute une seule catégorie à la fois
+    public function addCategory(Category $category)
+    {
+    // Ici, on utilise l'ArrayCollection vraiment comme un tableau
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category)
+    {
+    // Ici on utilise une méthode de l'ArrayCollection, pour supprimer la catégorie en argument
+        $this->categories->removeElement($category);
+    }
+
+    // Notez le pluriel, on récupère une liste de catégories ici !
+    public function getCategories()
+    {
+        return $this->categories;
     }
 
     /**
