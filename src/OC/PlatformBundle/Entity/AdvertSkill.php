@@ -18,11 +18,6 @@ class AdvertSkill
   private $id;
 
   /**
-   * @ORM\Column(name="level", type="string", length=255)
-   */
-  private $level;
-
-  /**
    * @ORM\ManyToOne(targetEntity="OC\PlatformBundle\Entity\Advert")
    * @ORM\JoinColumn(nullable=false)
    */
@@ -33,88 +28,71 @@ class AdvertSkill
    * @ORM\JoinColumn(nullable=false)
    */
   private $skill;
-  
-  // ... vous pouvez ajouter d'autres attributs bien sûr
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+   * @ORM\Column(name="level", type="string", length=255)
+   */
+  private $level;
 
-    /**
-     * Set level
-     *
-     * @param string $level
-     *
-     * @return AdvertSkill
-     */
-    public function setLevel($level)
-    {
-        $this->level = $level;
+  /**
+   * @return integer
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
 
-        return $this;
-    }
+  /**
+   * @param Advert $advert
+   * @return AdvertSkill
+   */
+  public function setAdvert(Advert $advert)
+  {
+    $this->advert = $advert;
+    return $this;
+  }
 
-    /**
-     * Get level
-     *
-     * @return string
-     */
-    public function getLevel()
-    {
-        return $this->level;
-    }
+  /**
+   * @return Advert
+   */
+  public function getAdvert()
+  {
+    return $this->advert;
+  }
 
-    /**
-     * Set advert
-     *
-     * @param \OC\PlatformBundle\Entity\Advert $advert
-     *
-     * @return AdvertSkill
-     */
-    public function setAdvert(\OC\PlatformBundle\Entity\Advert $advert)
-    {
-        $this->advert = $advert;
+  /**
+   * @param Skill $skill
+   * @return AdvertSkill
+   */
+  public function setSkill(Skill $skill)
+  {
+    $this->skill = $skill;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * @return Skill
+   */
+  public function getSkill()
+  {
+    return $this->skill;
+  }
 
-    /**
-     * Get advert
-     *
-     * @return \OC\PlatformBundle\Entity\Advert
-     */
-    public function getAdvert()
-    {
-        return $this->advert;
-    }
+  /**
+   * @param string $level
+   * @return AdvertSkill
+   */
+  public function setLevel($level)
+  {
+    $this->level = $level;
+    return $this;
+  }
 
-    /**
-     * Set skill
-     *
-     * @param \OC\PlatformBundle\Entity\Skill $skill
-     *
-     * @return AdvertSkill
-     */
-    public function setSkill(\OC\PlatformBundle\Entity\Skill $skill)
-    {
-        $this->skill = $skill;
-
-        return $this;
-    }
-
-    /**
-     * Get skill
-     *
-     * @return \OC\PlatformBundle\Entity\Skill
-     */
-    public function getSkill()
-    {
-        return $this->skill;
-    }
+  /**
+   * @return string
+   */
+  public function getLevel()
+  {
+    return $this->level;
+  }
 }

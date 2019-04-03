@@ -1,7 +1,6 @@
 <?php
 
 namespace OC\PlatformBundle\Entity;
-
 /**
  * ImageRepository
  *
