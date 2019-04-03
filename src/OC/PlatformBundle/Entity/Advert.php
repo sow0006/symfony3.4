@@ -3,6 +3,8 @@
 namespace OC\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Advert
@@ -70,6 +72,7 @@ class Advert
     {
         $this->date = new \Datetime();
         $this->categories = new ArrayCollection();
+
     }
 
     // Notez le singulier, on ajoute une seule catégorie à la fois
