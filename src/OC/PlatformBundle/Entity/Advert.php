@@ -15,6 +15,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Advert
 {
     /**
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert")
+     */
+    private $applications; // Notez le « s », une annonce est liée à plusieurs candidatures
+
+    /**
      * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist"})
      */
    private $categories;
@@ -72,7 +77,31 @@ class Advert
     {
         $this->date = new \Datetime();
         $this->categories = new ArrayCollection();
+        $this->applications = new ArrayCollection();
 
+    }
+
+    public function addApplication(Application $application)
+    {
+        $this->applications[] = $application;
+
+        // On lie l'annonce à la candidature
+        $application->setAdvert($this);
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application)
+    {
+        $this->applications->removeElement($application);
+
+        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
+        // $application->setAdvert(null);
+    }
+
+    public function getApplications()
+    {
+        return $this->applications;
     }
 
     // Notez le singulier, on ajoute une seule catégorie à la fois
@@ -225,8 +254,6 @@ class Advert
     {
         return $this->published;
     }
-
-    
 
     /**
      * Set image
