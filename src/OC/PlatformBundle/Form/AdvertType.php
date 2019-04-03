@@ -5,19 +5,27 @@ namespace OC\PlatformBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class AdvertType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-      ->add('date',      'date')
-      ->add('title',     'text')
-      ->add('author',    'text')
-      ->add('content',   'textarea')
-      ->add('published', 'checkbox', array('required' => false))
-      ->add('save',      'submit')
+      ->add('date',      DateType::class)
+      ->add('title',     TextType::class)
+      ->add('author',    TextType::class)
+      ->add('content',   TextareaType::class)
+      ->add('published', CheckboxType::class, array('required' => false))
+      ->add('save',      SubmitType::class)
     ;
   }
 
