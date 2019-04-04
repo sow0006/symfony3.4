@@ -1,15 +1,15 @@
 <?php
-// src/OC/PlatformBundle/Entity/Image
-namespace OC\PlatformBundle\Entity;
 
+namespace OC\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Table(name="oc_image")
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
+ * Image
+ *
+ * @ORM\Table(name="image")
+ * @ORM\Entity(repositoryClass="OC\PlatformBundle\Repository\ImageRepository")
  */
 class Image
 {
@@ -122,9 +122,4 @@ class Image
     public function getUploadRootDir(){
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
-
-    public function getWebPath()
-  {
-    return $this->getUploadDir().'/'.$this->getId().'.'.$this->getUrl();
-  }
 }
