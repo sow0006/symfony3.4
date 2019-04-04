@@ -18,25 +18,32 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 use OC\PlatformBundle\Form\ImageType;
 use OC\PlatformBundle\Form\CategoryType;
-use OC\PlatformBundle\Form\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use OC\PlatformBundle\Repository\CategoryRepository;
 
 
 class AdvertType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
+    $pattern = 'D%';
+
     $builder
       ->add('date',      DateType::class)
       ->add('title',     TextType::class)
       ->add('author',    TextType::class)
       ->add('content',   TextareaType::class)
       ->add('published', CheckboxType::class, array('required' => false))
+      // Image
       ->add('image',     ImageType::class)
+      // Categorie
       ->add('categories', EntityType::class, array(
-        'type'         => CategoryType::class,
-        'allow_add'    => true,
-        'allow_delete' => true
+        'class'         => 'OCPlatformBundle:Category',
+        'choice_label'  => 'name',
+        'multiple'      => true,
+        'query_builder' => function(CategoryRepository $repository) use($pattern) {
+          return $repository->getLikeQueryBuilder($pattern);
+        }
       ))
       ->add('save',      SubmitType::class)
     ;
