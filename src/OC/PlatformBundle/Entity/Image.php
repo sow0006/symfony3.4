@@ -1,16 +1,21 @@
 <?php
 // src/OC/PlatformBundle/Entity/Image
-
 namespace OC\PlatformBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Entity(repositoryClass="OC\PlatformBundle\Repository\ImageRepository")
+ * @ORM\Table(name="oc_image")
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
     /**
+     * @var int
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,31 +23,24 @@ class Image
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
 
     /**
+     * @var string
+     *
      * @ORM\Column(name="alt", type="string", length=255)
      */
     private $alt;
-
-    private $file;
-
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    public function setFile(UploadedFile $file = null)
-    {
-        $this->file = $file;
-    }
+    
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -50,7 +48,7 @@ class Image
     }
 
     /**
-     * Set url
+     * Set url.
      *
      * @param string $url
      *
@@ -64,7 +62,7 @@ class Image
     }
 
     /**
-     * Get url
+     * Get url.
      *
      * @return string
      */
@@ -74,7 +72,7 @@ class Image
     }
 
     /**
-     * Set alt
+     * Set alt.
      *
      * @param string $alt
      *
@@ -88,7 +86,7 @@ class Image
     }
 
     /**
-     * Get alt
+     * Get alt.
      *
      * @return string
      */
@@ -97,35 +95,36 @@ class Image
         return $this->alt;
     }
 
-    public function upload()
+    // On modifie le setter de File, pour prendre en compte l'upload d'un fichier lorsqu'il en existe déjà un autre
+    public function setFile(UploadedFile $file)
     {
-        // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
-        if (null === $this->file) {
-            return;
+        $this->file = $file;
+
+        // On vérifie si on avait déjà un fichier pour cette entité
+        if (null !== $this->url) {
+            // On sauvegarde l'extension du fichier pour le supprimer plus tard
+            $this->tempFilename = $this->url;
+
+            // On réinitialise les valeurs des attributs url et alt
+            $this->url = null;
+            $this->alt = null;
         }
-
-        // On récupère le nom original du fichier de l'internaute
-        $name = $this->file->getClientOriginalName();
-
-        // On déplace le fichier envoyé dans le répertoire de notre choix
-        $this->file->move($this->getUploadRootDir(), $name);
-
-        // On sauvegarde le nom de fichier dans notre attribut $url
-        $this->url = $name;
-
-        // On crée également le futur attribut alt de notre balise <img>
-        $this->alt = $name;
     }
 
-    public function getUploadDir()
-    {
-        // On retourne le chemin relatif vers l'image pour un navigateur (relatif au répertoire /web donc)
+    public function getFile(){
+        return $this->file;
+    }
+
+    public function getUploadDir(){
         return 'uploads/img';
     }
 
-    protected function getUploadRootDir()
-    {
-        // On retourne le chemin relatif vers l'image pour notre code PHP
+    public function getUploadRootDir(){
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
+
+    public function getWebPath()
+  {
+    return $this->getUploadDir().'/'.$this->getId().'.'.$this->getUrl();
+  }
 }
