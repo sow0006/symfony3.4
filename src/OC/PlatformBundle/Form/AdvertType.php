@@ -21,6 +21,9 @@ use OC\PlatformBundle\Form\CategoryType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use OC\PlatformBundle\Repository\CategoryRepository;
 
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+
 
 class AdvertType extends AbstractType
 {
@@ -33,7 +36,6 @@ class AdvertType extends AbstractType
       ->add('title',     TextType::class)
       ->add('author',    TextType::class)
       ->add('content',   TextareaType::class)
-      ->add('published', CheckboxType::class, array('required' => false))
       // Image
       ->add('image',     ImageType::class)
       // Categorie
@@ -47,6 +49,22 @@ class AdvertType extends AbstractType
       ))
       ->add('save',      SubmitType::class)
     ;
+
+    $builder->addEventListener(
+      FormEvents::PRE_SET_DATA,    // 1er argument : L'évènement qui nous intéresse : ici, PRE_SET_DATA
+      function(FormEvent $event) { // 2e argument : La fonction à exécuter lorsque l'évènement est déclenché
+        // On récupère notre objet Advert sous-jacent
+        $advert = $event->getData();
+        if (null === $advert) {
+          return; 
+        }
+        if (!$advert->getPublished() || null === $advert->getId()) {
+          $event->getForm()->add('published', CheckboxType::class, array('required' => false));
+        } else {
+          $event->getForm()->remove('published');
+        }
+      }
+    );
   }
 
   public function setDefaultOptions(OptionsResolverInterface $resolver)
