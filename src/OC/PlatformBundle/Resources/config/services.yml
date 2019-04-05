@@ -6,6 +6,8 @@ services:
     oc_platform.antispam:
         class:     OC\PlatformBundle\Antispam\OCAntispam
         arguments: ["@mailer", 50]
+        calls:
+            - [setLocale, [%locale%] ]
         tags:
             -  { name: twig.extension }
 
