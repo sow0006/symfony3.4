@@ -13,7 +13,6 @@ class OCAntispam extends \Twig_Extension
     public function __construct(\Swift_Mailer $mailer, $locale, $minLength)
     {
         $this->mailer = $mailer;
-        $this->locale = $locale;
         $this->minLength = (int) $minLength;
     }
 
@@ -40,6 +39,11 @@ class OCAntispam extends \Twig_Extension
   public function getName()
   {
     return 'OCAntispam';
+  }
+
+  public function setLocale($locale)
+  {
+    $this->locale = $locale;
   }
 
 }
