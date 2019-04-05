@@ -4,8 +4,15 @@
 
 services:
     oc_platform.antispam:
-        class: OC\PlatformBundle\Antispam\OCAntispam
+        class:     OC\PlatformBundle\Antispam\OCAntispam
         arguments: ["@mailer", "%locale%", 50]
+        tags:
+            -  { name: twig.extension }
+
+    sdz_blog.ckeditor:
+        class: OC\PlatformBundle\Form\Type\CkeditorType
+        tags:
+            - { name: form.type, alias: ckeditor }
 
     oc_platform.doctrine.notification:
         class: OC\PlatformBundle\DoctrineListener\ApplicationNotification
