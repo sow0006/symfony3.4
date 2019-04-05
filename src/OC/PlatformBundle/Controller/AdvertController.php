@@ -8,6 +8,8 @@ use OC\PlatformBundle\Entity\Advert;
 use OC\PlatformBundle\Entity\AdvertSkill;
 use OC\PlatformBundle\Form\AdvertType;
 
+use OC\PlatformBundle\Form\AdvertEditType;
+
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -202,4 +204,6 @@ class AdvertController extends Controller
       return new Response("L'annonce est valide !");
     }
   }
+
+  
 }

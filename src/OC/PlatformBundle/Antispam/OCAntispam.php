@@ -3,20 +3,22 @@
 
 namespace OC\PlatformBundle\Antispam;
 
+use OC\UserBundle\Entity\User;
+
 class OCAntispam extends \Twig_Extension
 {
 
-    private $mailer;
-    private $locale;
-    private $minLength;
+  private $mailer;
+  private $locale;
+  private $minLength;
 
-    public function __construct(\Swift_Mailer $mailer, $minLength)
-    {
-        $this->mailer = $mailer;
-        $this->minLength = (int) $minLength;
-    }
+  public function __construct(\Swift_Mailer $mailer, $minLength)
+  {
+    $this->mailer = $mailer;
+    $this->minLength = (int)$minLength;
+  }
 
-/**
+  /**
    * Vérifie si le texte est un spam ou non
    *
    * @param string $text
@@ -43,7 +45,6 @@ class OCAntispam extends \Twig_Extension
 
   public function setLocale($locale)
   {
-    $this->locale = $locale;
+    $this->loclae = $locale;
   }
-
 }
